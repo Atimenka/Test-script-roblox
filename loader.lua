@@ -1,29 +1,29 @@
-local GitHubRawURL = "https://raw.githubusercontent.com/YourUsername/Ultimate-Roblox-Hub/main/hub.lua"
-
-local function SafeLoad()
-    local success, response = pcall(function()
-        return game:HttpGet(GitHubRawURL .. "?v=" .. os.time(), true)
-    end)
-    
-    if success then
-        local loaded, err = pcall(function()
-            loadstring(response)()
-        end)
-        
-        if not loaded then
-            game:GetService("StarterGui"):SetCore("SendNotification",{
-                Title = "Ошибка загрузки",
-                Text = "Попробуйте позже",
-                Duration = 5
-            })
-        end
-    else
-        game:GetService("StarterGui"):SetCore("SendNotification",{
-            Title = "Нет подключения",
-            Text = "Проверьте интернет",
-            Duration = 5
-        })
-    end
+local GitHu-- Universal Loader - работает на любом исполнителе
+local function IsExecutor()
+    return (syn and true) or (issirhurtclosure and true) or (is_sirhurt_closure and true) or (iskrnl and true) or (getexecutorname and true)
 end
 
-SafeLoad()
+if not IsExecutor() then
+    game:GetService("StarterGui"):SetCore("SendNotification",{
+        Title = "❌ Требуется исполнитель",
+        Text = "Используйте KRNL/Synapse/SirHurt",
+        Duration = 5
+    })
+    return
+end
+
+-- Загрузка хаба
+local success, response = pcall(function()
+    return game:HttpGet("https://raw.githubusercontent.com/ВАШ_USERNAME/KRNL-Ultimate-Hub/main/hub.lua?v=" .. os.time(), true)
+end)
+
+if success then
+    local loaded, err = pcall(function()
+        loadstring(response)()
+    end)
+    if not loaded then
+        warn("Ошибка загрузки: " .. tostring(err))
+    end
+else
+    warn("Ошибка сети: " .. tostring(response))
+end
